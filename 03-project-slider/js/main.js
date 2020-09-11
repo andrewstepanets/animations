@@ -109,6 +109,15 @@ function init(){
 
     function updateCurrentStep(goToIndex){
         currentStep = goToIndex;
+
+        document.querySelectorAll('.dot').forEach(
+            (element, index) => {
+                element.setAttribute('class', 'dot')
+                if(index+1 === currentStep){
+                    element.classList.add('active');
+                }
+            } 
+        )
     }
 
     function transition(direction, index){
@@ -149,6 +158,29 @@ function isTweening(){
         document.querySelector('body').className = projectClass;
     }
 
+    function createNavigation(){
+
+        //creative dots container
+        const newDiv = document.createElement('div');
+        newDiv.setAttribute('class', 'dots');
+
+        // create a dot for each slide
+        for (let index = 0; index < totalSlides; index++) {
+            const element = document.createElement('button');
+            const text = document.createTextNode(index+1);
+            element.appendChild(text);
+            element.setAttribute('class', 'dot');
+            if(currentStep === index+1) {
+                element.classList.add('active')
+            }
+            newDiv.appendChild(element);
+        }
+
+        // add dots to the project container
+        document.querySelector('.projects').appendChild(newDiv);
+    }
+
+    createNavigation();
 }
 
 window.addEventListener('load', function(){
