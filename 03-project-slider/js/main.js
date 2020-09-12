@@ -10,7 +10,7 @@ function init(){
     let currentStep = 1;
     const totalSlides = document.querySelectorAll('.project').length;
 
-    createTimelineIn('prev', currentStep);
+    createTimelineIn('next', currentStep);
 
     function createTimelineIn(direction, index) {
 
@@ -94,22 +94,11 @@ function init(){
         return tlOut;
     }
 
-    function getGoToIndex(direction, index){
-
-        let goToIndex = index;
-
-        if(direction === 'next') {
-            goToIndex = index < totalSlides ? index + 1 : 1;
-        } else {
-            goToIndex = index > 1 ? index - 1 : totalSlides ;
-        }
-
-        return goToIndex;
-    }
 
     function updateCurrentStep(goToIndex){
         currentStep = goToIndex;
 
+        // set active class to the correct dot
         document.querySelectorAll('.dot').forEach(
             (element, index) => {
                 element.setAttribute('class', 'dot')
@@ -120,19 +109,18 @@ function init(){
         )
     }
 
-    function transition(direction, index){
+    function transition(direction, toIndex){
 
-        const goToIndex = getGoToIndex(direction, index);
         
         const tlTransition = gsap.timeline({
             onStart: function() {
-                console.log({index}, {goToIndex});
-                updateCurrentStep(goToIndex);
+                console.log({fromIndex: currentStep}, {toIndex});
+                updateCurrentStep(toIndex);
             }
         });
 
-        const tlOut = createTimelineOut(direction, index);
-        const tlIn = createTimelineIn(direction, goToIndex);
+        const tlOut = createTimelineOut(direction, currentStep);
+        const tlIn = createTimelineIn(direction, toIndex);
 
         tlTransition
             .add(tlOut)
@@ -147,11 +135,19 @@ function isTweening(){
 
    document.querySelector('button.next').addEventListener('click', function(e){
        e.preventDefault();
-       !isTweening() && transition('next', currentStep);
+
+       const isLast = currentStep === totalSlides;
+       const nextStep = isLast ? 1 : currentStep + 1;
+
+       !isTweening() && transition('next', nextStep);
    });
    document.querySelector('button.prev').addEventListener('click', function(e){
        e.preventDefault();
-       !isTweening() && transition('prev', currentStep);
+
+        const isFirst = currentStep === 1;
+        const prevStep = isFirst ? totalSlides : currentStep - 1;
+
+       !isTweening() && transition('prev', prevStep);
    });
 
     function updateClass(projectClass) {
@@ -165,14 +161,21 @@ function isTweening(){
         newDiv.setAttribute('class', 'dots');
 
         // create a dot for each slide
-        for (let index = 0; index < totalSlides; index++) {
+        for (let index = 1; index < totalSlides+1; index++) {
             const element = document.createElement('button');
-            const text = document.createTextNode(index+1);
+            const text = document.createTextNode(index);
             element.appendChild(text);
             element.setAttribute('class', 'dot');
-            if(currentStep === index+1) {
+            if(currentStep === index) {
                 element.classList.add('active')
             }
+
+            element.addEventListener('click', () => {
+                if( !isTweening() && currentStep !== index ) {
+                    const direction = index > currentStep ? 'next' : 'prev';
+                    transition(direction, index);
+                }
+            })
             newDiv.appendChild(element);
         }
 
