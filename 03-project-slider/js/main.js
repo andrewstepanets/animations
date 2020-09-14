@@ -106,7 +106,8 @@ function init(){
                     element.classList.add('active');
                 }
             } 
-        )
+        );
+        positionDot();
     }
 
     function transition(direction, toIndex){
@@ -160,6 +161,10 @@ function isTweening(){
         const newDiv = document.createElement('div');
         newDiv.setAttribute('class', 'dots');
 
+        // add active spot 
+        const spot  = document.createElement('div');
+        spot.setAttribute('class', 'spot');
+
         // create a dot for each slide
         for (let index = 1; index < totalSlides+1; index++) {
             const element = document.createElement('button');
@@ -179,8 +184,33 @@ function isTweening(){
             newDiv.appendChild(element);
         }
 
-        // add dots to the project container
+        // add dots to the project container and add spots
+        newDiv.appendChild(spot);
         document.querySelector('.projects').appendChild(newDiv);
+        positionDot();
+    }
+
+
+    function positionDot(){
+        const activeDotX = document.querySelector('.dot.active').offsetLeft;
+        const spot = document.querySelector('.spot');
+        const spotX = spot.offsetLeft;
+        const destinationX = Math.round(activeDotX - spotX + 5);
+
+        const dotTl = gsap.timeline();
+        dotTl
+            .to(spot, {
+                        duration: 0.4, 
+                        x: destinationX,
+                        scale: 2.5,
+                        ease: 'power1.Out'
+                    })
+            .to(
+                spot, {
+                    duration: 0.2,
+                    scale: 1,
+                    ease: 'power1.in'
+                });
     }
 
     createNavigation();
