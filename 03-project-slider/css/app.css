@@ -9,9 +9,9 @@ body {
     height: 100%;
     transition: background-color 0.4s linear;
 }
-body.project01 {background-color: #4d5126;}
-body.project02 {background-color: #a8b183;}
-body.project03 {background-color: #988685;}
+body.project00 {background-color: #4d5126;}
+body.project01 {background-color: #a8b183;}
+body.project02 {background-color: #988685;}
 
 h1, h2, h3, h4 {
     font-weight: 700;
@@ -126,30 +126,30 @@ a.button {
 }
 
 /* =GameBoy */
-.project02 .project-title {
+.project01 .project-title {
     color: #282c1b;
 }
-.project02 .project-subtitle {
+.project01 .project-subtitle {
     color: rgba(40,44,27,0.7);
 }
-.project02 .project-image:before {
+.project01 .project-image:before {
     background-color: rgba(40,44,27,0.8);
 }
-.project02 .project-image:after {
+.project01 .project-image:after {
     background-color: rgba(89,96,117,0.6);
 }
 
 /* =SVG Christmas */
-.project03 .project-title {
+.project02 .project-title {
     color: #473432;
 }
-.project03 .project-subtitle {
+.project02 .project-subtitle {
     color: rgba(71,52,50,0.7);
 }
-.project03 .project-image:before {
+.project02 .project-image:before {
     background-color: rgba(254,182,0,0.7);
 }
-.project03 .project-image:after {
+.project02 .project-image:after {
     background-color: rgba(234,93,71,0.6);
 }
 

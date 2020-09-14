@@ -7,8 +7,9 @@ function init(){
     gsap.set('.projects', {autoAlpha: 1});
     gsap.set('.project', {x: '-100%'});
 
-    let currentStep = 1;
+    let currentStep = 0;
     const totalSlides = document.querySelectorAll('.project').length;
+    const wrapper = gsap.utils.wrap(0, totalSlides);
 
     createTimelineIn('next', currentStep);
 
@@ -102,7 +103,7 @@ function init(){
         document.querySelectorAll('.dot').forEach(
             (element, index) => {
                 element.setAttribute('class', 'dot')
-                if(index+1 === currentStep){
+                if(index === currentStep){
                     element.classList.add('active');
                 }
             } 
@@ -137,16 +138,19 @@ function isTweening(){
    document.querySelector('button.next').addEventListener('click', function(e){
        e.preventDefault();
 
-       const isLast = currentStep === totalSlides;
-       const nextStep = isLast ? 1 : currentStep + 1;
+    //    const isLast = currentStep === totalSlides;
+    //    const nextStep = isLast ? 0 : currentStep + 1;
+    // instead this app using wrap utils
+    const nextStep = wrapper(currentStep + 1);
 
        !isTweening() && transition('next', nextStep);
    });
    document.querySelector('button.prev').addEventListener('click', function(e){
        e.preventDefault();
 
-        const isFirst = currentStep === 1;
-        const prevStep = isFirst ? totalSlides : currentStep - 1;
+        // const isFirst = currentStep === 0;
+        // const prevStep = isFirst ? totalSlides : currentStep - 1;
+        const prevStep = wrapper(currentStep - 1);
 
        !isTweening() && transition('prev', prevStep);
    });
@@ -166,7 +170,7 @@ function isTweening(){
         spot.setAttribute('class', 'spot');
 
         // create a dot for each slide
-        for (let index = 1; index < totalSlides+1; index++) {
+        for (let index = 0; index < totalSlides; index++) {
             const element = document.createElement('button');
             const text = document.createTextNode(index);
             element.appendChild(text);
