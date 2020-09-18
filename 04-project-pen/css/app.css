@@ -71,14 +71,14 @@ h1 {
     width: calc(50% - 90px);
     margin: 0 0 0 auto;
     text-align: right;
-    /* background-color: pink; */
+    background-color: pink;
 }
 .parts p {
     font-size: 13px;
     width: calc(50% - 90px);
     margin: 0 auto 0 0;
     text-align: left;
-    /* background-color: yellow; */
+    background-color: yellow;
 }
 .part1 .image {
     background-position: 50% 0;
@@ -162,6 +162,7 @@ h1 {
 @media only screen and (min-width: 768px) {
     .parts p, .parts h3 {
         font-size: 18px;
+        visibility: hidden;
     }
     h1 {
         font-size: 65px;
