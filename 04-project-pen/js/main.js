@@ -1,10 +1,21 @@
+gsap.registerPlugin(ScrollTrigger);
+
 function init(){
     
     // move part 3 to cover 2
+    const penTopHeight = document.querySelector('.pen-top').clientHeight;
 
     gsap.set('.part3', {
         y: () => {
-            return -(document.querySelector('.pen-top').clientHeight - 22);
+            return -(penTopHeight  - 22);
+        },
+        scrollTrigger: {
+            id: 'pen-body',
+            trigger: '.part3',
+            start: 'top bottom-=270px',
+            end: `+=${penTopHeight - 22}`,
+            pin: true,
+            markers: true
         }
     });
 
