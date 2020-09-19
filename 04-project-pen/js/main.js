@@ -28,15 +28,19 @@ function init(){
     // Part 5  = -722px
     // Part 4 = -547px
 
-    gsap.set('.part4', {
-        y: '-547px'
-    });
-    gsap.set('.part5', {
-        y: '-722px'
-    });
-    gsap.set('.part6', {
-        y: '-842px'
-    });
+    gsap.set('.part4', {y: '-547px'});
+    gsap.set('.part5', {y: '-722px'});
+    gsap.set('.part6', {y: '-842px'});
+
+    // tween the tip of the pen back to 0
+
+    gsap.to('.part6', {y: 0, ease: 'none', scrollTrigger: {
+        trigger: '.pen-body',
+        start: 'top bottom-=640px',
+        end: '+=842px',
+        scrub: true,
+        markers: true
+    }});
 
 }
 
