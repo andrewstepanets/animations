@@ -24,8 +24,31 @@ function init(){
         }
     });
 
+    // add class to all parts to reveal the text
 
-    const partTopOffsets = [547, 722, 842];
+    const allParts = gsap.utils.toArray('.part');
+    allParts.forEach((part, index) => {
+        
+
+        let startPosition = 'top center';
+
+        if(index === 2) {
+            startPosition = `top-=100 center`;
+            // this should be work?
+            // startPosition = `top+=${getTopPartsHeight()} center`;
+        }
+
+        gsap.set(part, {
+            scrollTrigger: {
+                id: `${part.getAttribute('class')}`,
+                trigger: part,
+                start: startPosition,
+                toggleClass: 'fade-in'
+        }
+    })
+
+    });
+   
 
     // using GSAP utils toArray
 
@@ -33,20 +56,26 @@ function init(){
     // Part 5  = -722px
     // Part 4 = -547px
 
+    const partTopOffsets = [547, 722, 842];
+
+    const fixPart = (el, offset, index) => {
+        gsap.set(el, { y: -offset });
+
+        gsap.to(el, {
+            y: 0, ease: 'none', scrollTrigger: {
+                trigger: '.pen-body',
+                start: 'top bottom-=640px',
+                end: `+=${offset}`,
+                scrub: true,
+                // markers: true
+            }
+        });
+    };
+
     gsap.utils
         .toArray(['.part4', '.part5', '.part6'])
         .forEach((part, index) => {
-            gsap.set(part, { y: -partTopOffsets[index]});
-
-            gsap.to(part, {
-                y: 0, ease: 'none', scrollTrigger: {
-                    trigger: '.pen-body',
-                    start: 'top bottom-=640px',
-                    end: `+=${partTopOffsets[index]}`,
-                    scrub: true,
-                    markers: true
-                }
-            });
+            fixPart(part, partTopOffsets[index], index);
         });
 
     
